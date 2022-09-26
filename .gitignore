@@ -1,0 +1,15 @@
+#Directiories
+.vs/
+.vscode/
+bin/
+bin-int/
+
+#Files
+
+Makefile
+Makefile.in
+0
+*.lib
+*.user
+*.vcxproj.filters
+*.vcxproj
