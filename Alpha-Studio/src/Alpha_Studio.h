@@ -1,3 +1,3 @@
 #pragma once
 
-int a();
+#include "Core/Application.h"

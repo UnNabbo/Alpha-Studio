@@ -2,9 +2,10 @@ workspace "Alpha Studio"
     architecture "x64"
     startproject "Sandbox"
 
-    filter "system:Windows"
+    filter "system:windows"
       systemversion "latest"
-      
+
+
     configurations{
         "Debug",
         "Release",
@@ -15,18 +16,17 @@ workspace "Alpha Studio"
     IncludeDir = {}
     IncludeDir["GLFW"] = "Alpha-Studio/vendor/glfw/include"
     IncludeDir["Glad"] = "Alpha-Studio/vendor/glad/include"
+    IncludeDir["glm"] = "Alpha-Studio/vendor/glm"
 
 
-    include "Alpha-Studio/vendor/GLFW"
-    include "Alpha-Studio/vendor/Glad"
-    
+    include "Alpha-Studio/vendor"
 
     project "Alpha-Studio"
         location "Alpha-Studio"
         kind "StaticLib"
         staticruntime "on"
         language "C++"
-        cppdialect "C++17"
+        cppdialect "C++20"
 
         targetdir ("bin/" .. outputdir .. "/%{prj.name}")
         objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -42,6 +42,7 @@ workspace "Alpha Studio"
             "%{prj.name}/vendor/spdlog/include",
             "%{IncludeDir.GLFW}",
             "%{IncludeDir.Glad}",
+            "%{IncludeDir.glm}"
         }
 
         links{
@@ -53,14 +54,20 @@ workspace "Alpha Studio"
 		    "_CRT_SECURE_NO_WARNINGS"
 	    }
 
-            
-
         filter "system:windows"
             systemversion "latest"
         
             defines{
-                "BL_PLATFORM_WINDOWS",
-                "BLAST_CORE",
+                "PLATFORM_WINDOWS",
+                "ALPHA_CORE",
+                "GLFW_INCLUDE_NONE"
+            }
+
+        filter "system:linux"
+    
+            defines{
+                "PLATFORM_LINUX",
+                "ALPHA_CORE",
                 "GLFW_INCLUDE_NONE"
             }
 
@@ -69,7 +76,7 @@ workspace "Alpha Studio"
         kind "ConsoleApp"
         staticruntime "on"
         language "C++"
-        cppdialect "C++17"
+        cppdialect "C++20"
 
         targetdir ("bin/" .. outputdir .. "/%{prj.name}")
         objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -92,11 +99,21 @@ workspace "Alpha Studio"
         }
 
         filter "system:windows"
-            cppdialect "C++17"
+            cppdialect "C++20"
             staticruntime "On"
             systemversion "latest"
 
             defines{
-                "BL_PLATFORM_WINDOWS",
+                "PLATFORM_WINDOWS",
+                "GLFW_INCLUDE_NONE"
+            }
+
+        filter "system:linux"
+            cppdialect "C++20"
+            staticruntime "On"
+            systemversion "latest"
+
+            defines{
+                "PLATFORM_LINUX",
                 "GLFW_INCLUDE_NONE"
             }

@@ -2,10 +2,14 @@
 
 #include <iostream>
 
-#define PAUSE system("pause>0");
 
+class Game : public Alpha::Application {
+
+};
 
 int main() {
-	a();
-	PAUSE
+
+	Game x{};
+	x.Run();
+	system("pause");
 }
