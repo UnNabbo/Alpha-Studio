@@ -11,5 +11,4 @@ int main() {
 
 	Game x{};
 	x.Run();
-	system("pause");
 }

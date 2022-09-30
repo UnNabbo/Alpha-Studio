@@ -17,6 +17,8 @@ workspace "Alpha Studio"
     IncludeDir["GLFW"] = "Alpha-Studio/vendor/glfw/include"
     IncludeDir["Glad"] = "Alpha-Studio/vendor/glad/include"
     IncludeDir["glm"] = "Alpha-Studio/vendor/glm"
+    IncludeDir["Vulkan"] = "Alpha-Studio/vendor/vulkan/include"
+
 
 
     include "Alpha-Studio/vendor"
@@ -42,12 +44,15 @@ workspace "Alpha Studio"
             "%{prj.name}/vendor/spdlog/include",
             "%{IncludeDir.GLFW}",
             "%{IncludeDir.Glad}",
-            "%{IncludeDir.glm}"
+            "%{IncludeDir.glm}",
+            "%{IncludeDir.Vulkan}",
+
         }
 
         links{
             "GLFW",
             "Glad",
+            "Alpha-Studio/vendor/vulkan/lib/vulkan-1.lib"
         }
 
         defines{

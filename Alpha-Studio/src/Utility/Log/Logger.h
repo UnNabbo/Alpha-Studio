@@ -13,6 +13,14 @@ namespace std {
 	static string to_string(string _Val) {
 		return _Val;
 	}
+
+	static string to_string(char _Val) {
+		return string(1, _Val);
+	}
+
+	static string to_string(char * _Val) {
+		return string(_Val);
+	}
 }
 
 

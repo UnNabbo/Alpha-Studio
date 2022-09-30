@@ -1,7 +1,10 @@
 #pragma once
 
+#include "Core/Core.h"
+
 namespace Alpha 
 {
+	class Window;
 	class Application {
 	public:
 
@@ -14,7 +17,7 @@ namespace Alpha
 		virtual ~Application();
 
 	private:	
-		
+		Reference<Window> m_Window;
 
 		
 	};

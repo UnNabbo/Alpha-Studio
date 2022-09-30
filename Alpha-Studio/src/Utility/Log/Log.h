@@ -30,7 +30,7 @@ namespace Alpha
 #define ALPHA_ERROR(...) ::Alpha::Log::getCoreLogger()->Error(__FILE__, __LINE__, __VA_ARGS__)
 #define ALPHA_FATAL(...) ::Alpha::Log::getCoreLogger()->Fatal(__FILE__, __LINE__, __VA_ARGS__)
 
-#define ALPHA_ASSERT(x, ...) if(!x) { ::Origin::Log::getCoreLogger()->Fatal(__FILE__, __LINE__, __VA_ARGS__); __debugbreak(); }
+#define ALPHA_ASSERT(x, ...) if(!x) { ::Alpha::Log::getCoreLogger()->Fatal(__FILE__, __LINE__, __VA_ARGS__); __debugbreak(); }
 
 #else
 
