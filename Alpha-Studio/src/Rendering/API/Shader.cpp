@@ -65,8 +65,14 @@ namespace Alpha {
 
 		if (in.is_open())
 		{
-			std::vector<uint32_t> buffer(std::istreambuf_iterator<char>(in), {});
-			shaderData = buffer;
+			in.seekg(0, std::ios::end);
+			auto size = in.tellg();
+			in.seekg(0, std::ios::beg);
+
+			auto& data = shaderData;
+			data.resize(size / sizeof(uint32_t));
+			in.read((char*)data.data(), size);
+
 		}
 		else
 		{
