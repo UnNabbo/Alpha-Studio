@@ -1,7 +1,8 @@
 #include "Unix_Window.h"
 
-#include "glad/glad.h"
 #include "GLFW/glfw3.h"
+
+#include "Rendering/RenderingContext.h"
 
 namespace std {
 
@@ -30,12 +31,8 @@ namespace Alpha {
 
 		glfwMakeContextCurrent(m_NativeWindow);
 
-		int GL_status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		ALPHA_ASSERT(GL_status, "Failed to initialize Glad!");
-
-		ALPHA_INFO("OpenGL Infos:\nVendor: {}\nRenderer: {}\nVersion: {}", (char *)glGetString(GL_VENDOR), (char*)glGetString(GL_RENDERER), (char*)glGetString(GL_VERSION));
-		glEnable(GL_DEBUG_OUTPUT);
-
+		Reference<RenderingContext> Context = RenderingContext::Create();
+		Context->Init();
 	}
 
 	Unix_Window::~Unix_Window(){

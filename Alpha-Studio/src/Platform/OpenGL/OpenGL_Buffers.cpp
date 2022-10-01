@@ -50,6 +50,11 @@ namespace Alpha {
 		glDeleteBuffers(1, &m_ID);
 	}
 
+	uint32_t OpenGL_IndexBuffer::GetCount()
+	{
+		return m_Size / sizeof(uint32_t);
+	}
+
 	void OpenGL_IndexBuffer::Bind(){
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ID);
 

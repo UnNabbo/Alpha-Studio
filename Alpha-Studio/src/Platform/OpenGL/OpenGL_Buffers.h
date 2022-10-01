@@ -26,7 +26,7 @@ namespace Alpha {
 		OpenGL_IndexBuffer(size_t size);
 		~OpenGL_IndexBuffer();
 
-
+		virtual uint32_t GetCount() override;
 		virtual void Bind() override;
 		virtual void SetData(uint32_t* data, size_t Data) override;
 	private:

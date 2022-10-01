@@ -2,17 +2,28 @@
 
 #include "Core/Core.h"
 
-namespace Alpha {
-	class Shader {
-		static Reference<Shader> Create(const char* name, const char* vertex_path, const char* fragment_path);
-		static Reference<Shader> Create(const char* path);
+#include <unordered_map>
 
-		virtual std::string GetName() const = 0;
+namespace Alpha {
+	enum ShaderStages {
+		Fragment = 0,
+		Pixel = 1,
+	};
+
+
+	class Shader {
+	public:
+		static Reference<Shader> Create(std::string FragPath, std::string PixelPath);
+
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;
+
 		virtual void Reload() = 0;
 
+	protected:
+		
+		static void Compile(std::string Sources, ShaderStages stage, std::vector<uint32_t>& data);
+		//static void Reflect(uint32_t stage, std::vector<uint32_t> data);
 
-		virtual void UploadUniform(std::string name, int* data, uint32_t size) = 0;
 	};
 }

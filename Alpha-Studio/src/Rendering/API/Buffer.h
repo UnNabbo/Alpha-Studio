@@ -110,6 +110,8 @@ namespace Alpha {
 
 		virtual void Bind() = 0;
 		virtual void SetData(uint32_t* data, size_t Data) = 0;
+		virtual uint32_t GetCount() = 0;
+
 
 		static Reference<IndexBuffer> Create(uint32_t* data, size_t Data);
 		static Reference<IndexBuffer> Create(size_t Data);
