@@ -11,18 +11,21 @@ namespace Alpha {
 
 	class RenderableObject;
 	class Renderer_Internal;
-
+	class EditorCamera;
 
 	class RenderingAPI {
 		friend Renderer_Internal;
 	public:
 		virtual void Init() = 0;
 		virtual void Shutdown() = 0;
-		virtual void ResizeWindow() = 0;
+		virtual void ResizeWindow(int width, int height) = 0;
 		virtual void Draw(Reference<RenderableObject>& object) = 0;
 
+		virtual void Begin(EditorCamera& cam) = 0;
+		virtual void End() = 0;
+
 		virtual void Clear() = 0;
-		virtual void Clear(int r, int g, int b) = 0;
+		virtual void SetClearColor(int r, int g, int b) = 0;
 
 		static API& GetAPI() { return s_CurrentAPI; };
 	protected:

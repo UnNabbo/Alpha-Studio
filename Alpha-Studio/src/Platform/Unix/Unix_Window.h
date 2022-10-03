@@ -22,6 +22,9 @@ namespace Alpha {
 		virtual void NewFrame() override;
 
 		virtual bool ShouldClose() const override;
+		
+		virtual void SetEventCallBack(const EventCallbackFn& fn) override;
+
 
 		void Init();
 		void ShutDown();

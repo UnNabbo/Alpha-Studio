@@ -72,7 +72,6 @@ namespace Alpha {
 			auto& data = shaderData;
 			data.resize(size / sizeof(uint32_t));
 			in.read((char*)data.data(), size);
-
 		}
 		else
 		{

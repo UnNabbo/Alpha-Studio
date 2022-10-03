@@ -57,7 +57,7 @@ workspace "Alpha Studio"
         kind "StaticLib"
         staticruntime "off"
         language "C++"
-        cppdialect "C++20"
+        cppdialect "C++17"
 
         targetdir ("bin/" .. outputdir .. "/%{prj.name}")
         objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -131,7 +131,7 @@ workspace "Alpha Studio"
         kind "ConsoleApp"
         staticruntime "off"
         language "C++"
-        cppdialect "C++20"
+        cppdialect "C++17"
 
         targetdir ("bin/" .. outputdir .. "/%{prj.name}")
         objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -142,11 +142,10 @@ workspace "Alpha Studio"
         }
 
         includedirs{
-            "Alpha-Studio/vendor/spdlog/include",
             "Alpha-Studio/src",
             "Alpha-Studio/vendor",
             "Alpha-Studio/",  
-
+            "%{IncludeDir.glm}",
         }
 
         links{

@@ -20,3 +20,5 @@ template<typename type, typename ... Args>
 constexpr Reference<type>MakeScopedRef(Args&& ... args) {
 	return std::make_unique<type>(std::forward<Args>(args)...);
 }
+
+#define BIT(x) 1 << x

@@ -5,16 +5,20 @@
 #include "RenderingAPI.h"
 
 namespace Alpha {
-	class RenderableObject;
-
 	class Renderer {
 	public:
 		static void Init();
 		static void Shutdown();
-		static void ResizeWindow();
+		static void ResizeWindow(int width, int height);
+
+		static void Begin(EditorCamera& cam);
+
 		static void Draw(Reference<RenderableObject>& object);
+
+		static void End();
+
 		static API GetCurrentAPI();
 		static void Clear();
-		static void Clear(int r, int g, int b);
+		static void SetClearColor(int r, int g, int b);
 	};
 }

@@ -5,7 +5,6 @@
 #include "RenderingAPI.h"
 
 namespace Alpha {
-	class RenderableObject;
 
 	class Renderer_Internal {
 	public:
@@ -16,18 +15,27 @@ namespace Alpha {
 		inline static void Shutdown() {
 			s_RenderingAPI->Shutdown();
 		}
-		inline static void ResizeWindow() {
-			s_RenderingAPI->ResizeWindow();
+		inline static void ResizeWindow(int width, int height) {
+			s_RenderingAPI->ResizeWindow(width, height);
 		}
 		inline static void Draw(Reference<RenderableObject>& object) {
 			s_RenderingAPI->Draw(object);
 		}
 
+		inline static void Begin(EditorCamera& cam) {
+			s_RenderingAPI->Begin(cam);
+		}
+
+		inline static void End() {
+			s_RenderingAPI->End();
+		}
+
 		inline static void Clear() {
 			s_RenderingAPI->Clear();
 		}
-		inline static void Clear(int r, int g, int b) {
-			s_RenderingAPI->Clear(r,g,b);
+
+		inline static void SetClearColor(int r, int g, int b) {
+			s_RenderingAPI->SetClearColor(r, g, b);
 		}
 
 	private:

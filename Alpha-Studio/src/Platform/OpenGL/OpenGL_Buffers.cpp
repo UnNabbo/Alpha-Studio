@@ -32,18 +32,17 @@ namespace Alpha {
 		glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
 	}
 
-	OpenGL_IndexBuffer::OpenGL_IndexBuffer(uint32_t* data, size_t size){
+	OpenGL_IndexBuffer::OpenGL_IndexBuffer(uint32_t* data, size_t size) : m_Size(size) {
 		glCreateBuffers(1, &m_ID);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ID);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
 
 	}
 
-	OpenGL_IndexBuffer::OpenGL_IndexBuffer(size_t size){
+	OpenGL_IndexBuffer::OpenGL_IndexBuffer(size_t size) : m_Size(size) {
 		glCreateBuffers(1, &m_ID);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ID);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
-
 	}
 
 	OpenGL_IndexBuffer::~OpenGL_IndexBuffer(){
