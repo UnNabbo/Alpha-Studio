@@ -22,6 +22,14 @@ namespace Alpha
 	};
 }
 
+
+#ifdef _MSC_VER
+#define DEBUG_BREAK __debugbreak();
+#else
+#define DEBUG_BREAK __builtin_trap();
+#endif
+
+
 #ifdef ALPHA_CORE
 
 #define ALPHA_TRACE(...) ::Alpha::Log::getCoreLogger()->Trace(__FILE__, __LINE__, __VA_ARGS__)
@@ -30,7 +38,9 @@ namespace Alpha
 #define ALPHA_ERROR(...) ::Alpha::Log::getCoreLogger()->Error(__FILE__, __LINE__, __VA_ARGS__)
 #define ALPHA_FATAL(...) ::Alpha::Log::getCoreLogger()->Fatal(__FILE__, __LINE__, __VA_ARGS__)
 
-#define ALPHA_ASSERT(x, ...) if(!x) { ::Alpha::Log::getCoreLogger()->Fatal(__FILE__, __LINE__, __VA_ARGS__); __debugbreak(); }
+
+
+#define ALPHA_ASSERT(x, ...) if(!x) { ::Alpha::Log::getCoreLogger()->Fatal(__FILE__, __LINE__, __VA_ARGS__); DEBUG_BREAK }
 
 #else
 
@@ -41,6 +51,6 @@ namespace Alpha
 #define ALPHA_ERROR(...) ::Alpha::Log::getClientLogger()->Error(__FILE__, __LINE__, __VA_ARGS__)
 #define ALPHA_FATAL(...) ::Alpha::Log::getClientLogger()->Fatal(__FILE__, __LINE__, __VA_ARGS__)
 
-#define ALPHA_ASSERT(x, ...) if(!x) { ::Alpha::Log::getCoreLogger()->Fatal(__FILE__, __LINE__, __VA_ARGS__); __debugbreak(); }
+#define ALPHA_ASSERT(x, ...) if(!x) { ::Alpha::Log::getCoreLogger()->Fatal(__FILE__, __LINE__, __VA_ARGS__); DEBUG_BREAK }
 
 #endif 

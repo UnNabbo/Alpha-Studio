@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Rendering/API/UniformBuffer.h"
+#include "Rendering/Primitive/UniformBuffer.h"
 
 namespace Alpha {
 	class OpenGL_UniformBuffer : public UniformBuffer {

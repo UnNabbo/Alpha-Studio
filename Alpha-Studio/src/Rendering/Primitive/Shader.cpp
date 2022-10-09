@@ -1,12 +1,13 @@
 #include "Shader.h"
 
-#include "Rendering/Renderer.h"
+#include "Rendering/RendererCommand.h"
 
 #include "Platform/OpenGL/OpenGL_Shaders.h"
 
 #include "shaderc/shaderc.hpp"
 #include <fstream>
 #include <filesystem>
+#include <cstring>
 
 #include "Asset/AssetManager.h"
 
@@ -14,7 +15,7 @@ namespace Alpha {
 	namespace Utils {
 		static shaderc_shader_kind GLShaderStageToShaderC(ShaderStages stage)
 		{	
-			switch (Renderer::GetCurrentAPI()){
+			switch (RendererCommand::GetCurrentAPI()){
 				case OpenGL: {
 					switch (stage)
 					{
@@ -31,7 +32,7 @@ namespace Alpha {
 
 		static const char* CachedFileExtension(uint32_t stage)
 		{
-			switch (Renderer::GetCurrentAPI()) {
+			switch (RendererCommand::GetCurrentAPI()) {
 				case OpenGL: {
 					switch (stage)
 					{

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Rendering/API/Shader.h"
+#include "Rendering/Primitive/Shader.h"
 
 namespace Alpha {
 	class OpenGL_Shader : public Shader {

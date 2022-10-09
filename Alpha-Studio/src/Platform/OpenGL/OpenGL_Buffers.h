@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Rendering/API/Buffer.h"
+#include "Rendering/Primitive/Buffer.h"
 
 namespace Alpha {
 	class OpenGL_VertexBuffer : public VertexBuffer {

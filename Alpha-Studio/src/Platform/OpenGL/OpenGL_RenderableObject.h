@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Rendering/API/RenderableObject.h"
+#include "Rendering/Primitive/RenderableObject.h"
 
 namespace Alpha {
 	class OpenGL_RenderableObject : public RenderableObject{

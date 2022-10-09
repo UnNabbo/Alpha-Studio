@@ -2,19 +2,21 @@
 
 #include "Core/Window/Window.h"
 
-#include "Rendering/API/RenderableObject.h"
+#include "Rendering/Primitive/RenderableObject.h"
 
 #include "Rendering/Renderer.h"
 
-#include "Rendering/API/Shader.h"
+#include "Rendering/Primitive/Shader.h"
 
 #include "glad/glad.h"
 
-#include "Rendering/API/UniformBuffer.h"
+#include "Rendering/Primitive/UniformBuffer.h"
 
 #include "Asset/AssetManager.h"
 
 #include "Utility/Time/Time.h"
+
+#include "Rendering/RendererCommand.h"
 
 namespace Alpha 
 {
@@ -95,7 +97,7 @@ namespace Alpha
 			14,15,13
 		};
 
-		Reference<Shader> shader = Shader::Create("./asset/shaders/Fragment.glsl");
+		Reference<Shader> shader = Shader::Create("D:/DEV/Alpha Studio/Sandbox/asset/shaders/Fragment.glsl");
 		Reference<VertexBuffer> vbo = VertexBuffer::Create(vertices, sizeof(vertices));
 		vbo->SetLayout({ 
 			{ ShaderDataType::Float3, "Pos"},
@@ -107,7 +109,7 @@ namespace Alpha
 
 		shader->Bind();
 
-		Renderer::SetClearColor(0.65f, 0.65f, 0.65f);
+		RendererCommand::SetClearColor(0.65f, 0.65f, 0.65f);
 
 		while (m_Window->ShouldClose()) {
 			m_Window->NewFrame();
@@ -119,7 +121,7 @@ namespace Alpha
 
 			Renderer::Begin(m_EditorCamera);
 			ResourceManager::CheckForUpdates();
-			Renderer::Clear();
+			RendererCommand::Clear();
 			m_EditorCamera.OnUpdate();
 			Renderer::Draw(ref);
 
@@ -143,7 +145,7 @@ namespace Alpha
 
 	bool Application::OnWindowResize(WindowResizeEvent& e) {
 		m_EditorCamera.SetViewportSize(e.GetWidth(), e.GetHeight()); 
-		Renderer::ResizeWindow(e.GetWidth(), e.GetHeight());
+		RendererCommand::ResizeWindow(e.GetWidth(), e.GetHeight());
 		return false;
 	}
 

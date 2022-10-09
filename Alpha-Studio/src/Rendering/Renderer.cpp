@@ -1,24 +1,24 @@
 #include "Renderer.h"
 
-#include "Renderer_Internal.h"
+#include "RendererCommand.h"
 
-#include "API/UniformBuffer.h"
+#include "Primitive/UniformBuffer.h"
 
 #include "Camera/EditorCamera.h"
+
+#include "Renderer_Internal.h"
 
 #include "glm/glm.hpp"
 
 namespace Alpha {
 	struct RedererData {
 		Reference<UniformBuffer> CamBuffer;
-
 	};
 
 	inline static RedererData* s_Data = new RedererData();
 
 	void Renderer::Init(){
-		Renderer_Internal::Init();
-
+		RendererCommand::Init();
 		s_Data->CamBuffer = UniformBuffer::Create(sizeof(glm::mat4), 0);
 	}
 
@@ -31,27 +31,17 @@ namespace Alpha {
 		Renderer_Internal::Draw(object);
 	}
 
+	void Renderer::Submit(Reference<RenderableObject>& object) {
+		
+	}
+
 	void Renderer::End(){
 
 	}
 
 	void Renderer::Shutdown(){
-		Renderer_Internal::Shutdown();
+		RendererCommand::Shutdown();
 	}
 
-	void Renderer::ResizeWindow(int width, int height){
-		Renderer_Internal::ResizeWindow(width, height);
-	}
 
-	void Renderer::Clear(){
-		Renderer_Internal::Clear();
-	}
-	void Renderer::SetClearColor(int r, int g, int b){
-		Renderer_Internal::SetClearColor(r,g,b);
-	}
-
-	API Renderer::GetCurrentAPI()
-	{
-		return RenderingAPI::GetAPI();
-	}
 }
