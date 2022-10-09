@@ -31,6 +31,7 @@ namespace Alpha {
 		glfwMakeContextCurrent(m_NativeWindow);
 		Reference<RenderingContext> Context = RenderingContext::Create();
 		Context->Init();
+		glfwSwapInterval(0);
 		glfwSetWindowUserPointer(m_NativeWindow, &m_Data);
 
 		glfwSetKeyCallback(m_NativeWindow, [](GLFWwindow* window, int keycode, int scancode, int action, int mods) {

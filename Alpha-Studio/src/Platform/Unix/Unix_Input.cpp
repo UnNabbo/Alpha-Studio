@@ -12,6 +12,12 @@ namespace Alpha {
 		 return glfwGetKey(Window, key) != GLFW_RELEASE;
 	 }
 
+	 void Input::LockCursor(bool state) {
+		 const auto& Window = static_cast<GLFWwindow*>(Application::GetApp().GetMainWindow()->GetNative());
+
+		 glfwSetInputMode(Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL + (state * 2));
+	 }
+
 	 bool Input::GetMouseButton(MouseButton key) {
 		 const auto& Window = static_cast<GLFWwindow*>(Application::GetApp().GetMainWindow()->GetNative());
 

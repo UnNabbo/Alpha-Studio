@@ -5,14 +5,14 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtx/quaternion.hpp"
 
-
 #include "Input/Input.h"
+
+#include "Utility/Time/Time.h"
 
 namespace Alpha {
 	EditorCamera::EditorCamera()
 		: m_Projection(glm::perspective(glm::radians(90.0f), 1600.0f/900.0f, 0.1f, 100.f)), m_FOV(90), m_AspectRatio(1600.f/900.0f), m_NearClip(0.1f), m_FarClip(100.f) {
 		UpdateView();
-
 	}
 
 	EditorCamera::EditorCamera(float fov, float aspectRatio, float nearClip, float farClip)
@@ -33,8 +33,6 @@ namespace Alpha {
 	}
 
 	void EditorCamera::UpdateView() {
-
-
 		glm::quat orientation = GetOrientation();
 
 		m_ViewMatrix = glm::translate(glm::mat4(1), m_Position) * glm::toMat4(orientation);
@@ -44,9 +42,12 @@ namespace Alpha {
 	}
 
 	void EditorCamera::OnUpdate() {
+		if (Input::GetMouseButtonDown(MouseButtons::RIGHT)) {
+			Input::LockCursor(true);
+		}
+
 		if (Input::GetMouseButtonDown(MouseButtons::MIDDLE)) {
 			glm::vec2 delta = GetMouseDelta();
-
 
 			auto [xSpeed, ySpeed] = PanSpeed();
 			m_Position += -GetRightDirection() * delta.x * xSpeed * m_Distance;
@@ -54,7 +55,7 @@ namespace Alpha {
 
 		}
 		else if (Input::GetMouseButtonDown(MouseButtons::RIGHT)) {
-
+			Input::LockCursor(true);
 			glm::vec2 delta = GetMouseDelta();
 
 			if (!m_RotationLock) {
@@ -67,10 +68,31 @@ namespace Alpha {
 				m_Position += -GetRightDirection() * delta.x * xSpeed * m_Distance;
 				m_Position += GetUpDirection() * delta.y * ySpeed * m_Distance;
 			}
+
+			float Mdelta = Time::DeltaTime() * 15;
+
+			if (Input::GetKey(Keycodes::KEY_W)) {
+				m_Position += GetForwardDirection() * Mdelta;
+			}
+
+			if (Input::GetKey(Keycodes::KEY_S)) {
+				m_Position += -GetForwardDirection() * Mdelta;
+			}
+
+			if (Input::GetKey(Keycodes::KEY_D)) {
+				m_Position += GetRightDirection() * Mdelta;
+			}
+
+			if (Input::GetKey(Keycodes::KEY_A)) {
+				m_Position += -GetRightDirection() * Mdelta;
+			}
+
 		}
 		if (!Input::GetMouseButtonDown(MouseButtons::MIDDLE) && !Input::GetMouseButtonDown(MouseButtons::RIGHT)) {
 			const glm::vec2& mouse = Input::GetMousePos();
 			m_InitialMousePosition = mouse;
+
+			Input::LockCursor(false);
 		}
 		UpdateView();
 	}

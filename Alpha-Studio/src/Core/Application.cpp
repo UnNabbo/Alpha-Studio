@@ -10,8 +10,11 @@
 
 #include "glad/glad.h"
 
-
 #include "Rendering/API/UniformBuffer.h"
+
+#include "Asset/AssetManager.h"
+
+#include "Utility/Time/Time.h"
 
 namespace Alpha 
 {
@@ -27,6 +30,7 @@ namespace Alpha
 		m_Window->SetEventCallBack(BIND_EVENT_FN(Application::OnEvent));
 		Renderer::Init();
 
+		Time::Init();
 	}
 
 	void Application::OnStart(){
@@ -41,6 +45,10 @@ namespace Alpha
 		EventsDispatcher Dispatcher(e);
 		Dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FN(Application::OnWindowResize));
 		m_EditorCamera.OnEvent(e);
+
+		for (auto layer : m_LayerStack) {
+			layer->OnEvent(e);
+		}
 	}
 
 	void Application::Run(){
@@ -70,8 +78,7 @@ namespace Alpha
 			  -0.5f, -0.5f, -0.5f, 1,1,0,// left  
 			   0.5f, -0.5f, -0.5f, 1,1,0,// left  
 
-			  
-
+			 
 		};
 
 		uint32_t ind[] = {
@@ -88,7 +95,7 @@ namespace Alpha
 			14,15,13
 		};
 
-		Reference<Shader> shader = Shader::Create("D:/DEV/Alpha Studio/Alpha-Studio/asset/shaders/Fragment.glsl", "D:/DEV/Alpha Studio/Alpha-Studio/asset/shaders/Vertex.glsl");
+		Reference<Shader> shader = Shader::Create("./asset/shaders/Fragment.glsl");
 		Reference<VertexBuffer> vbo = VertexBuffer::Create(vertices, sizeof(vertices));
 		vbo->SetLayout({ 
 			{ ShaderDataType::Float3, "Pos"},
@@ -98,18 +105,21 @@ namespace Alpha
 		Reference<IndexBuffer> ibo = IndexBuffer::Create(ind, sizeof(ind));
 		Reference<RenderableObject> ref = RenderableObject::Create(vbo, ibo);
 
-		Reference<UniformBuffer> Ubuff = UniformBuffer::Create(sizeof(glm::mat4), 0);
-
-		Ubuff->SetData(&m_EditorCamera.GetViewProjection(), sizeof(glm::mat4));
-
 		shader->Bind();
+
 		Renderer::SetClearColor(0.65f, 0.65f, 0.65f);
+
 		while (m_Window->ShouldClose()) {
 			m_Window->NewFrame();
+			Time::Update();
 
+			for (auto layer : m_LayerStack) {
+				layer->OnUpdate();
+			}
 
+			Renderer::Begin(m_EditorCamera);
+			ResourceManager::CheckForUpdates();
 			Renderer::Clear();
-			Ubuff->SetData(&m_EditorCamera.GetViewProjection(), sizeof(glm::mat4));
 			m_EditorCamera.OnUpdate();
 			Renderer::Draw(ref);
 

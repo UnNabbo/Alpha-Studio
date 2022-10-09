@@ -10,6 +10,11 @@ layout(std140, binding = 0) uniform Camera
 	mat4 u_ViewProjection;
 };
 
+layout(std140, binding = 1) uniform Size
+{
+	float size;
+};
+
 layout (location = 1) out vec3 outColor;
 
 void main()
@@ -23,7 +28,6 @@ void main()
 layout(location = 0) out vec4 FragColor;
 
 layout (location = 1) in vec3 outColor;
-
 
 void main()
 {

@@ -5,12 +5,20 @@
 #include <iostream>
 
 
-class Game : public Alpha::Application {
+class AlphaApp : public Alpha::Application {
 
+};
+
+class Game : public Alpha::Layer {
+public:
+	void OnUpdate() {
+
+	}
 };
 
 int main() {
 
-	Game x = Game();
+	AlphaApp x;
+	x.PushLayer(new Game);
 	x.Run();
 }

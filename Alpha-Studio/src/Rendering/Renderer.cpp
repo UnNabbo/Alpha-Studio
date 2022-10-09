@@ -2,21 +2,29 @@
 
 #include "Renderer_Internal.h"
 
+#include "API/UniformBuffer.h"
+
+#include "Camera/EditorCamera.h"
+
+#include "glm/glm.hpp"
+
 namespace Alpha {
+	struct RedererData {
+		Reference<UniformBuffer> CamBuffer;
+
+	};
+
+	inline static RedererData* s_Data = new RedererData();
+
 	void Renderer::Init(){
 		Renderer_Internal::Init();
-	}
 
-	void Renderer::Shutdown(){
-		Renderer_Internal::Shutdown();
-	}
-
-	void Renderer::ResizeWindow(int width, int height){
-		Renderer_Internal::ResizeWindow(width, height);
+		s_Data->CamBuffer = UniformBuffer::Create(sizeof(glm::mat4), 0);
 	}
 
 	void Renderer::Begin(EditorCamera& cam){
-		Renderer_Internal::Begin(cam);
+		glm::mat4 CamMat4 = cam.GetViewProjection();
+		s_Data->CamBuffer->SetData(&CamMat4, sizeof(CamMat4), 0);
 	}
 
 	void Renderer::Draw(Reference<RenderableObject>& object){
@@ -25,6 +33,14 @@ namespace Alpha {
 
 	void Renderer::End(){
 
+	}
+
+	void Renderer::Shutdown(){
+		Renderer_Internal::Shutdown();
+	}
+
+	void Renderer::ResizeWindow(int width, int height){
+		Renderer_Internal::ResizeWindow(width, height);
 	}
 
 	void Renderer::Clear(){

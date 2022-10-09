@@ -8,6 +8,8 @@ namespace Alpha {
 	class Input {
 	public:
 		static bool GetKey(Keycode key);
+		static void LockCursor(bool state);
+
 		static bool GetMouseButton(MouseButton key);
 		static bool GetKeyUp(Keycode key);
 		static bool GetMouseButtonUp(MouseButton key);

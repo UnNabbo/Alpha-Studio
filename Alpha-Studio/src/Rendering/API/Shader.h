@@ -4,16 +4,18 @@
 
 #include <unordered_map>
 
+#include "Asset/Resource.h"
+
 namespace Alpha {
 	enum ShaderStages {
-		Fragment = 0,
+		Vertex = 0,
 		Pixel = 1,
 	};
 
 
-	class Shader {
+	class Shader : public Resource {
 	public:
-		static Reference<Shader> Create(std::string FragPath, std::string PixelPath);
+		static Reference<Shader> Create(std::string FragPath);
 
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;
@@ -22,7 +24,7 @@ namespace Alpha {
 
 	protected:
 		
-		static void Compile(std::string Sources, ShaderStages stage, std::vector<uint32_t>& data);
+		static std::unordered_map<ShaderStages, std::vector<uint32_t>> Compile(std::string path, bool overwrite = false);
 		//static void Reflect(uint32_t stage, std::vector<uint32_t> data);
 
 	};

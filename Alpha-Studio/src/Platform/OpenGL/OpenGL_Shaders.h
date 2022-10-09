@@ -5,7 +5,7 @@
 namespace Alpha {
 	class OpenGL_Shader : public Shader {
 	public:
-		OpenGL_Shader(std::string FragPath, std::string PixelPath);
+		OpenGL_Shader(std::string PixelPath);
 		~OpenGL_Shader() = default;
 
 		void CreateProgram();
@@ -15,6 +15,7 @@ namespace Alpha {
 		virtual void Reload() override;
 	private:
 		uint32_t m_ID;
-		std::unordered_map < ShaderStages, std::vector< uint32_t >> m_SPIRV;
+		std::string m_Path;
+		std::unordered_map<ShaderStages, std::vector<uint32_t>> m_SPIRV;
 	};
 }
