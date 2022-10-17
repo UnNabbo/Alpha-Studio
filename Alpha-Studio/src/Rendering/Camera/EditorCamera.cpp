@@ -9,7 +9,7 @@
 
 namespace Alpha {
 	EditorCamera::EditorCamera()
-		: m_Projection(glm::perspective(glm::radians(75.0f), 1600.0f/900.0f, 0.1f, 10000.f)), m_FOV(90), m_AspectRatio(1600.f/900.0f), m_NearClip(0.1f), m_FarClip(100.f) {
+		: m_Projection(glm::perspective(glm::radians(75.0f), 1600.0f/900.0f, 0.1f, 1000.f)), m_FOV(90), m_AspectRatio(1600.f/900.0f), m_NearClip(0.1f), m_FarClip(1000.f) {
 		UpdateView();
 	}
 

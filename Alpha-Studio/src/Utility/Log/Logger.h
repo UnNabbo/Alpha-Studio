@@ -21,6 +21,10 @@ namespace std {
 	static string to_string(char * _Val) {
 		return string(_Val);
 	}
+
+	static string to_string(string_view _Val) {
+		return string(_Val);
+	}
 }
 
 

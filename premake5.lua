@@ -22,11 +22,17 @@ workspace "Alpha Studio"
     LibraryDir = {}
 
     LibraryDir["VulkanSDK"] = "%{VULKAN_SDK}/Lib"
+    LibraryDir["Assimp"] = "Alpha-Studio/vendor/assimp/bin"
     
     Library = {}
     Library["Vulkan"] = "%{LibraryDir.VulkanSDK}/vulkan-1.lib"
     Library["VulkanUtils"] = "%{LibraryDir.VulkanSDK}/VkLayer_utils.lib"
     
+    Library["Assimp_Debug"] = "D:/DEV/Alpha Studio/Alpha-Studio/vendor/assimp/bin/Debug/assimp-vc143-mtd.lib"
+    Library["Zlib"] = "D:/DEV/Alpha Studio/Alpha-Studio/vendor/assimp/contrib/zlib/Debug/zlibstaticd.lib"
+    Library["Assimp_Release"] = "D:/DEV/Alpha Studio/Alpha-Studio/vendor/assimp/bin/Release/assimp-vc143-mt.lib"
+
+
     Library["ShaderC_Debug"] = "%{LibraryDir.VulkanSDK}/shaderc_sharedd.lib"
     Library["SPIRV_Cross_Debug"] = "%{LibraryDir.VulkanSDK}/spirv-cross-cored.lib"
     Library["SPIRV_Cross_GLSL_Debug"] = "%{LibraryDir.VulkanSDK}/spirv-cross-glsld.lib"
@@ -76,20 +82,22 @@ workspace "Alpha Studio"
         includedirs{
             "%{prj.name}/src",
             "%{prj.name}/vendor",
-            "%{prj.name}/vendor/spdlog/include",
             "%{IncludeDir.GLFW}",
             "%{IncludeDir.Glad}",
             "%{IncludeDir.glm}",
             "%{IncludeDir.VulkanSDK}",
-            "%{IncludeDir.Assimp}"
-
+            "%{IncludeDir.Assimp}",
+            "%{IncludeDir.Assimp}/include/",
+            "%{IncludeDir.Assimp}/code/",
+            "%{IncludeDir.Assimp}/contrib/pugixml/src",
         }
 
         links{
             "GLFW",
             "Glad",
-            "assimp",
-		    "opengl32.lib"
+		    "opengl32.lib",
+            "%{Library.Zlib}",
+
         }
 
         filter "system:windows"
@@ -115,6 +123,7 @@ workspace "Alpha Studio"
 
             links
             {
+                "%{Library.Assimp_Debug}",
                 "%{Library.ShaderC_Debug}",
                 "%{Library.SPIRV_Cross_Debug}",
                 "%{Library.SPIRV_Cross_GLSL_Debug}"
@@ -127,6 +136,8 @@ workspace "Alpha Studio"
 
             links
             {
+
+                "%{Library.Assimp_Release}",
                 "%{Library.ShaderC_Release}",
                 "%{Library.SPIRV_Cross_Release}",
                 "%{Library.SPIRV_Cross_GLSL_Release}"
@@ -166,8 +177,20 @@ workspace "Alpha Studio"
             defines "ALPHA_DEBUG"
             runtime "Debug"
             symbols "on"
+            links
+            {
+                "%{Library.Assimp_Debug}",
+            }
     
         filter "configurations:Release"
             defines "ALPHA_RELEASE"
             runtime "Release"
             optimize "on"
+
+            links
+            {
+
+                "%{Library.Assimp_Release}",
+            }
+
+

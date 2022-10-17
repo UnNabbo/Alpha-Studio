@@ -18,8 +18,6 @@
 
 #include "Rendering/RendererCommand.h"
 
-#include "Utility/3DModels/OBJ/OBJLoader.h"
-
 #include "Utility/3DModels/ModelLoader.h"
 
 namespace Alpha 
@@ -59,7 +57,7 @@ namespace Alpha
 	void Application::Run(){
 		OnStart();
 
-		auto x = ModelLoader::Load("C:/Users/saver.SAVERIO/OneDrive/Desktop/Nuova cartella (4)/Pony_cartoon.obj");
+		auto x = ModelLoader::Load("C:/Users/saver.SAVERIO/OneDrive/Desktop/Lucy_3M_O10_20.dxf.dxf");
 
 		float vertices[] = {
 			  -0.5f, -0.5f, 0.5f, 1,0, 1,0,0,// left  
@@ -106,8 +104,11 @@ namespace Alpha
 		Reference<VertexBuffer> vbo = VertexBuffer::Create(x.Vertices.data(), x.Vertices.size() * sizeof(struct Vertex));
 		vbo->SetLayout({ 
 			{ ShaderDataType::Float3, "Pos"},
+			{ ShaderDataType::Float3, "Normals"},
 			{ ShaderDataType::Float2, "Uvs"},
 			{ ShaderDataType::Float3, "Normals"},
+			{ ShaderDataType::Float3, "Normals"},
+
 		});
 		Reference<IndexBuffer> ibo = IndexBuffer::Create(x.Indicies.data(), x.Indicies.size() * sizeof(uint32_t));
 		Reference<RenderableObject> ref = RenderableObject::Create(vbo, ibo);
