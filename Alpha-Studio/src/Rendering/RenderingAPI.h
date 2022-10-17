@@ -10,11 +10,11 @@ namespace Alpha {
 	};
 
 	class RenderableObject;
-	class Renderer_Internal;
+	class RendererCommand;
 	class EditorCamera;
 
 	class RenderingAPI {
-		friend Renderer_Internal;
+		friend RendererCommand;
 	public:
 		virtual void Init() = 0;
 		virtual void Shutdown() = 0;

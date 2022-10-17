@@ -18,10 +18,13 @@
 
 #include "Rendering/RendererCommand.h"
 
+#include "Utility/3DModels/OBJ/OBJLoader.h"
+
+#include "Utility/3DModels/ModelLoader.h"
+
 namespace Alpha 
 {
 	inline static Application* s_App = 0;
-	
 
 	Application::Application() {
 		if (s_App) {};
@@ -56,29 +59,31 @@ namespace Alpha
 	void Application::Run(){
 		OnStart();
 
+		auto x = ModelLoader::Load("C:/Users/saver.SAVERIO/OneDrive/Desktop/Nuova cartella (4)/Pony_cartoon.obj");
+
 		float vertices[] = {
-			  -0.5f, -0.5f, 0.5f, 1,0,0,// left  
-			   0.5f, -0.5f, 0.5f, 1,0,0,// right 
-			   0.0f,  0.5f, 0.0f,  1,0,1,// top   
+			  -0.5f, -0.5f, 0.5f, 1,0, 1,0,0,// left  
+			   0.5f, -0.5f, 0.5f, 1,0, 1,0,0,// right 
+			   0.0f,  0.5f, 0.0f, 1,0,  1,0,1,// top   
 
-			   0.5f, -0.5f, 0.5f, 1,0,0,// left  
-			   0.5f, -0.5f, -0.5f, 1,0,0,// right 
-			   0.0f,  0.5f, 0.0f,  1,0,1,// top   
-
-
-			  -0.5f, -0.5f, -0.5f, 1,0,0,// left  
-			   0.5f, -0.5f, -0.5f, 1,0,0,// right 
-			   0.0f,  0.5f, 0.0f,  1,0,1,// top   
+			   0.5f, -0.5f, 0.5f, 1,0, 1,0,0,// left  
+			   0.5f, -0.5f, -0.5f, 1,0, 1,0,0,// right 
+			   0.0f,  0.5f, 0.0f, 1,0,  1,0,1,// top   
 
 
-			  -0.5f, -0.5f, 0.5f, 1,0,0,// left  
-			  -0.5f, -0.5f, -0.5f, 1,0,0,// right 
-			   0.0f,  0.5f, 0.0f,  1,0,1,// top   
+			  -0.5f, -0.5f, -0.5f, 1,0, 1,0,0,// left  
+			   0.5f, -0.5f, -0.5f, 1,0, 1,0,0,// right 
+			   0.0f,  0.5f, 0.0f, 1,0,  1,0,1,// top   
 
-			  -0.5f, -0.5f,  0.5f, 1,1,0,// left  
-			   0.5f, -0.5f,  0.5f, 1,1,0,// left  
-			  -0.5f, -0.5f, -0.5f, 1,1,0,// left  
-			   0.5f, -0.5f, -0.5f, 1,1,0,// left  
+
+			  -0.5f, -0.5f, 0.5f, 1,0, 1,0,0,// left  
+			  -0.5f, -0.5f, -0.5f, 1,0, 1,0,0,// right 
+			   0.0f,  0.5f, 0.0f, 1,0,  1,0,1,// top   
+
+			  -0.5f, -0.5f,  0.5f, 1,0, 1,1,0,// left  
+			   0.5f, -0.5f,  0.5f, 1,0, 1,1,0,// left  
+			  -0.5f, -0.5f, -0.5f, 1,0, 1,1,0,// left  
+			   0.5f, -0.5f, -0.5f, 1,0, 1,1,0,// left  
 
 			 
 		};
@@ -86,25 +91,25 @@ namespace Alpha
 		uint32_t ind[] = {
 			0,1,2,
 
-			3,4,5,
+			2,3,4,
+
+			4,5,6,
 
 			6,7,8,
 
 			9,10,11,
 
 			12,13,14,
-
-			14,15,13
 		};
 
-		Reference<Shader> shader = Shader::Create("D:/DEV/Alpha Studio/Sandbox/asset/shaders/Fragment.glsl");
-		Reference<VertexBuffer> vbo = VertexBuffer::Create(vertices, sizeof(vertices));
+		Reference<Shader> shader = Shader::Create("./asset/shaders/Fragment.glsl");
+		Reference<VertexBuffer> vbo = VertexBuffer::Create(x.Vertices.data(), x.Vertices.size() * sizeof(struct Vertex));
 		vbo->SetLayout({ 
 			{ ShaderDataType::Float3, "Pos"},
-			{ ShaderDataType::Float3, "Col"},
-
-			});
-		Reference<IndexBuffer> ibo = IndexBuffer::Create(ind, sizeof(ind));
+			{ ShaderDataType::Float2, "Uvs"},
+			{ ShaderDataType::Float3, "Normals"},
+		});
+		Reference<IndexBuffer> ibo = IndexBuffer::Create(x.Indicies.data(), x.Indicies.size() * sizeof(uint32_t));
 		Reference<RenderableObject> ref = RenderableObject::Create(vbo, ibo);
 
 		shader->Bind();
@@ -120,10 +125,10 @@ namespace Alpha
 			}
 
 			Renderer::Begin(m_EditorCamera);
-			ResourceManager::CheckForUpdates();
+			AssetManager::CheckForUpdates();
 			RendererCommand::Clear();
 			m_EditorCamera.OnUpdate();
-			Renderer::Draw(ref);
+			glDrawElements(GL_TRIANGLES, ref->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, 0);
 
 			OnUpdate();
 		}

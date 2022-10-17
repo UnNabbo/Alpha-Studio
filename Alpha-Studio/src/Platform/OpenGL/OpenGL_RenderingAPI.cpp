@@ -1,10 +1,10 @@
 #include "OpenGL_RenderingAPI.h"
 
-#include "Rendering/API/RenderableObject.h"
+#include "Rendering/Primitive/RenderableObject.h"
 
 #include "glad/glad.h"
 
-#include "Rendering/API/Shader.h"
+#include "Rendering/Primitive/Shader.h"
 
 namespace Alpha {
 	void OpenGLMessageCallback(
@@ -33,6 +33,8 @@ namespace Alpha {
 		glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, NULL, GL_FALSE);
 
 		glEnable(GL_DEPTH_TEST);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

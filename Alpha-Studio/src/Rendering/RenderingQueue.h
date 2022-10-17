@@ -4,5 +4,7 @@ namespace Alpha {
 	class RenderingQueue {
 	public:
 
+	private:
+
 	};
 }

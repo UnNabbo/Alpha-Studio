@@ -3,7 +3,7 @@ project "GLFW"
 
 	kind "StaticLib"
 	language "C"
-	staticruntime "on"
+	staticruntime "off"
 
 
 	targetdir ("GLFW/bin/" .. outputdir .. "/%{prj.name}")
@@ -92,7 +92,6 @@ project "GLFW"
 		runtime "Release"
 		optimize "on"
 
-
 project "Glad"
 	location "Glad"
 
@@ -117,10 +116,6 @@ project "Glad"
 	filter "system:windows"
 		systemversion "latest"
 
-		
-	filter "system:linux"
-		systemversion "latest"
-
 	filter "configurations:Debug"
 		runtime "Debug"
 		symbols "on"
@@ -128,3 +123,82 @@ project "Glad"
 	filter "configurations:Release"
 		runtime "Release"
 		optimize "on"
+
+project "assimp"
+	location "assimp"
+	kind "StaticLib"
+	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
+	
+	targetdir ("assimp/bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("assimp/bin-int/" .. outputdir .. "/%{prj.name}")
+	
+	defines {
+-- "SWIG",
+"ASSIMP_USE_HUNTER"
+	}
+	
+	files {
+		"assimp/include/**",
+		"assimp/code/**.h",
+		"assimp/code/**.c",
+		"assimp/code/**.hpp",
+		"assimp/code/**.cpp",
+	}
+	
+	includedirs {
+		"assimp/include/",
+		"assimp/code/",
+		"assimp/contrib/pugixml/src",
+		"assimp/",
+		"assimp/contrib/zlib/",
+		
+		"assimp/contrib/irrXML/",
+		"assimp/contrib/rapidjson/include",
+	}
+	
+	 filter "system:windows"
+		systemversion "latest"
+	
+	 filter  "configurations:Debug"
+		 runtime "Debug"
+		 symbols "on"
+	
+	 filter  "configurations:Release"
+		 runtime "Release"
+		 optimize "on"
+
+project "RapidJson"
+	location "rapidjson"
+	kind "StaticLib"
+	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
+	
+	targetdir ("rapidjson/bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("rapidjson/bin-int/" .. outputdir .. "/%{prj.name}")
+	
+	defines {
+
+	}
+	
+	files {
+		"rapidjson/include/**.h",
+	}
+	
+	includedirs {
+		"rapidjson/include/",
+	}
+	
+	
+	 filter "system:windows"
+		systemversion "latest"
+	
+	 filter  "configurations:Debug"
+		 runtime "Debug"
+		 symbols "on"
+	
+	 filter  "configurations:Release"
+		 runtime "Release"
+		 optimize "on"

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Asset/Resource.h"
+#include "Asset/Asset.h"
 #include "Core/Core.h"
 #include "Core/UUID.h"
 #include "Core/Container/DenseMap.h"
@@ -11,14 +11,14 @@
 
 namespace Alpha {
 
-	class ResourceManager {
+	class AssetManager {
 	public:
 
 		template<typename T>
 		inline static void Load(Reference<T>& item) {
 			auto ID = UUID();
 			m_UUIDS[item->GetPath()] = ID;
-			Reference<Resource> res = std::static_pointer_cast<Resource>(item);
+			Reference<Asset> res = std::static_pointer_cast<Asset>(item);
 			m_FileWatcher.Insert(item->GetPath());
 			m_Resources.insert_or_do_nothing(ID, res);
 		}
@@ -45,7 +45,7 @@ namespace Alpha {
 		
 
 	private:
-		inline static DenseMap<UUID, Reference<Resource>> m_Resources;
+		inline static DenseMap<UUID, Reference<Asset>> m_Resources;
 		inline static std::unordered_map<std::string_view, UUID> m_UUIDS;
 		inline static FileWatcher m_FileWatcher;
 	};

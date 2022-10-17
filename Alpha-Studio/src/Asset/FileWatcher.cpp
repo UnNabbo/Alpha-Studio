@@ -26,7 +26,7 @@ namespace Alpha {
 				auto current_file_last_write_time = std::filesystem::last_write_time(file);
 				if (m_Paths[path] != current_file_last_write_time) {
 					m_Paths[path] = current_file_last_write_time;
-					auto res = ResourceManager::Retrive<Resource>(path);
+					auto res = AssetManager::Retrive<Asset>(path);
 					res->Reload();
 					ALPHA_INFO("{}", file.path().string());
 				}

@@ -6,8 +6,6 @@
 
 #include "Camera/EditorCamera.h"
 
-#include "Renderer_Internal.h"
-
 #include "glm/glm.hpp"
 
 namespace Alpha {
@@ -28,7 +26,7 @@ namespace Alpha {
 	}
 
 	void Renderer::Draw(Reference<RenderableObject>& object){
-		Renderer_Internal::Draw(object);
+		
 	}
 
 	void Renderer::Submit(Reference<RenderableObject>& object) {

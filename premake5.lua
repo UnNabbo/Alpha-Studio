@@ -1,7 +1,6 @@
 workspace "Alpha Studio"
     architecture "x64"
     startproject "Sandbox"
-
     filter "system:windows"
       systemversion "latest"
 
@@ -37,9 +36,11 @@ workspace "Alpha Studio"
     Library["SPIRV_Cross_Release"] = "%{LibraryDir.VulkanSDK}/spirv-cross-core.lib"
     Library["SPIRV_Cross_GLSL_Release"] = "%{LibraryDir.VulkanSDK}/spirv-cross-glsl.lib"
 
+
     IncludeDir = {}
     
     IncludeDir["GLFW"] = "Alpha-Studio/vendor/glfw/include"
+    IncludeDir["Assimp"] = "Alpha-Studio/vendor/assimp/include/"
     IncludeDir["Glad"] = "Alpha-Studio/vendor/glad/include"
     IncludeDir["glm"] = "Alpha-Studio/vendor/glm"
     IncludeDir["Vulkan"] = "Alpha-Studio/vendor/vulkan/include"
@@ -55,9 +56,9 @@ workspace "Alpha Studio"
     project "Alpha-Studio"
         location "Alpha-Studio"
         kind "StaticLib"
-        staticruntime "off"
         language "C++"
-        cppdialect "C++17"
+        cppdialect "C++20"
+        staticruntime "off"
 
         targetdir ("bin/" .. outputdir .. "/%{prj.name}")
         objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -67,6 +68,11 @@ workspace "Alpha Studio"
             "%{prj.name}/src/**.cpp",
         }
 
+        defines{
+            "_CRT_SECURE_NO_WARNINGS",
+            "GLFW_INCLUDE_NONE"
+        }
+
         includedirs{
             "%{prj.name}/src",
             "%{prj.name}/vendor",
@@ -74,19 +80,17 @@ workspace "Alpha Studio"
             "%{IncludeDir.GLFW}",
             "%{IncludeDir.Glad}",
             "%{IncludeDir.glm}",
-            "%{IncludeDir.VulkanSDK}"
+            "%{IncludeDir.VulkanSDK}",
+            "%{IncludeDir.Assimp}"
 
         }
 
         links{
             "GLFW",
             "Glad",
-            "%{Library.Vulkan}"
+            "assimp",
+		    "opengl32.lib"
         }
-
-        defines{
-		    "_CRT_SECURE_NO_WARNINGS"
-	    }
 
         filter "system:windows"
             systemversion "latest"
@@ -98,7 +102,6 @@ workspace "Alpha Studio"
             }
 
         filter "system:linux"
-    
             defines{
                 "PLATFORM_LINUX",
                 "ALPHA_CORE",
@@ -107,7 +110,9 @@ workspace "Alpha Studio"
 
         filter "configurations:Debug"
             defines "ALPHA_DEBUG"
-            
+            runtime "Debug"
+            symbols "on"
+
             links
             {
                 "%{Library.ShaderC_Debug}",
@@ -117,6 +122,7 @@ workspace "Alpha Studio"
 
 	    filter "configurations:Release"
             defines "ALPHA_RELEASE"
+            runtime "Release"
             optimize "on"
 
             links
@@ -129,9 +135,10 @@ workspace "Alpha Studio"
     project "Sandbox"
         location "Sandbox"
         kind "ConsoleApp"
-        staticruntime "off"
         language "C++"
-        cppdialect "C++17"
+        cppdialect "C++20"
+        staticruntime "off"
+        linkgroups "On"
 
         targetdir ("bin/" .. outputdir .. "/%{prj.name}")
         objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -149,25 +156,18 @@ workspace "Alpha Studio"
         }
 
         links{
-            "Alpha-Studio"
+            "GLFW",
+            "Glad",
+            "Alpha-Studio",
+
         }
 
-        filter "system:windows"
-            cppdialect "C++20"
-            staticruntime "off"
-            systemversion "latest"
-
-            defines{
-                "PLATFORM_WINDOWS",
-                "GLFW_INCLUDE_NONE"
-            }
-
-        filter "system:linux"
-            cppdialect "C++20"
-            staticruntime "off"
-            systemversion "latest"
-
-            defines{
-                "PLATFORM_LINUX",
-                "GLFW_INCLUDE_NONE"
-            }
+        filter "configurations:Debug"
+            defines "ALPHA_DEBUG"
+            runtime "Debug"
+            symbols "on"
+    
+        filter "configurations:Release"
+            defines "ALPHA_RELEASE"
+            runtime "Release"
+            optimize "on"

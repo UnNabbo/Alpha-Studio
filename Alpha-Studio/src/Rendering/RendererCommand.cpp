@@ -1,24 +1,23 @@
-#pragma once
-
 #include "RendererCommand.h"
-
-#include "Renderer_Internal.h"
 
 namespace Alpha {
 	void RendererCommand::Init(){
-		Renderer_Internal::Init();
+		s_RenderingAPI->Init();
+
 	}
 	void RendererCommand::ResizeWindow(int width, int height){
-		Renderer_Internal::ResizeWindow(width, height);
+		s_RenderingAPI->ResizeWindow(width, height);
 	}
 	void RendererCommand::Clear(){
-		Renderer_Internal::Clear();
+		s_RenderingAPI->Clear();
 	}
 	void RendererCommand::SetClearColor(int r, int g, int b){
-		Renderer_Internal::SetClearColor(r, g, b);
+		s_RenderingAPI->SetClearColor(r, g, b);
+
 	}
 	void RendererCommand::Shutdown(){
-		Renderer_Internal::Shutdown();
+		s_RenderingAPI->Shutdown();
+
 	}
 
 	API RendererCommand::GetCurrentAPI()

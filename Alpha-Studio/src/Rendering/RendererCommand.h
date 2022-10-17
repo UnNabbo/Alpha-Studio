@@ -2,6 +2,8 @@
 
 #include "RenderingAPI.h"
 
+#include "RenderingAPI.h"
+
 namespace Alpha {
 	class RendererCommand {
 	public:
@@ -11,5 +13,8 @@ namespace Alpha {
 		static void SetClearColor(int r, int g, int b);
 		static void Shutdown();
 		static API GetCurrentAPI();
+
+	private:
+		inline static Reference<RenderingAPI> s_RenderingAPI = RenderingAPI::Create();
 	};
 }

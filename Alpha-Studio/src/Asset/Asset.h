@@ -3,7 +3,7 @@
 #include <string>
 
 namespace Alpha {
-	class Resource {
+	class Asset {
 	public:
 		std::string& GetPath() { return m_Path; }
 		virtual void Reload() {};

@@ -57,10 +57,10 @@ namespace Alpha {
 
 	Reference<Shader> Shader::Create(std::string FragPath)
 	{
-		auto res = ResourceManager::Retrive<Shader>(FragPath);
+		auto res = AssetManager::Retrive<Shader>(FragPath);
 		if (!res.get()) {
 			res = MakeReference<OpenGL_Shader>(FragPath);
-			ResourceManager::Load(res);
+			AssetManager::Load(res);
 		}
 
 		return res;

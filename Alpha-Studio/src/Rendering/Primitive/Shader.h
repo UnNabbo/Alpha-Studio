@@ -4,7 +4,7 @@
 
 #include <unordered_map>
 
-#include "Asset/Resource.h"
+#include "Asset/Asset.h"
 
 namespace Alpha {
 	enum ShaderStages {
@@ -13,7 +13,7 @@ namespace Alpha {
 	};
 
 
-	class Shader : public Resource {
+	class Shader : public Asset {
 	public:
 		static Reference<Shader> Create(std::string FragPath);
 

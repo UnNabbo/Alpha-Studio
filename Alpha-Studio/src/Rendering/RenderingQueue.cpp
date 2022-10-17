@@ -1,1 +1,5 @@
-#pragma once
+#include "RenderingQueue.h"
+
+namespace Alpha {
+
+}
