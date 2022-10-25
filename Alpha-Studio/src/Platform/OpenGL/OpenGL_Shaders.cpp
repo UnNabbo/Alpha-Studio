@@ -20,6 +20,10 @@ namespace Alpha {
 		Bind();
 	}
 
+	OpenGL_Shader::~OpenGL_Shader() {
+		
+	}
+
 	void OpenGL_Shader::CreateProgram(){
 		GLuint program = glCreateProgram();
 

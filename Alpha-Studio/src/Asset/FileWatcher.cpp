@@ -12,24 +12,13 @@ namespace Alpha {
 	}
 
 	void FileWatcher::Check() {
-		for (auto& file : std::filesystem::recursive_directory_iterator("./")) {
-			auto path = file.path().string();
-			size_t pos = path.find("\\");
-
-			while (pos != std::string::npos)
-			{
-				path.replace(pos, 1, 1, '/');
-				pos = path.find("\\");
-			}
-
-			if (m_Paths.find(path) != m_Paths.end()) {
-				auto current_file_last_write_time = std::filesystem::last_write_time(file);
-				if (m_Paths[path] != current_file_last_write_time) {
-					m_Paths[path] = current_file_last_write_time;
-					auto res = AssetManager::Retrive<Asset>(path);
-					res->Reload();
-					ALPHA_INFO("{}", file.path().string());
-				}
+		for (auto& [file, last_write_time ]: m_Paths) {
+			auto current_file_last_write_time = std::filesystem::last_write_time(file);
+			if (last_write_time != current_file_last_write_time) {
+				last_write_time = current_file_last_write_time;
+				auto res = AssetManager::Retrive<Asset>(file);
+				res->Reload();
+				ALPHA_INFO("{}", file);
 			}
 		}
 	}

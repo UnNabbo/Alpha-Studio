@@ -1,8 +1,10 @@
-#include "ModelLoader.h"
+#include "MeshLoader.h"
 
 #include "assimp/Importer.hpp"
 #include "assimp/scene.h"
 #include "assimp/postprocess.h"
+
+#include <fstream>
 
 #include "glm/gtc/matrix_transform.hpp"
 
@@ -11,9 +13,19 @@ namespace Alpha {
 		glm::vec3 ToVec3(aiVector3D* vec) {
 			return { vec->x, vec->y, vec->z};
 		}
+
+		std::string GetChachePath() {
+			return "./asset/models/chache/";
+		}
 	}
 
-	ModelData ModelLoader::Load(std::string_view path) {
+	std::vector<MeshData> MeshLoader::Load(std::string_view path, bool overwrite) {
+		std::vector<MeshData> PMeshes;
+
+		std::string strpath(path);
+
+		std::string name = strpath.substr(strpath.find_last_of("/"), strpath.size());
+
 		Assimp::Importer importer;
 
 		const aiScene* scene = importer.ReadFile(std::string(path), aiProcess_PreTransformVertices  | aiProcess_Triangulate  | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace );
@@ -22,14 +34,16 @@ namespace Alpha {
 			return {};
 		}
 
-		std::vector<uint32_t> indices;
-		std::vector<Vertex> vertices;
-
 		std::vector<aiMesh*> meshes;
 
 		ProcessNode(scene->mRootNode, scene, meshes);
+		
 
-		for (auto & Mesh : meshes) {
+		for (int i = 0; i < meshes.size(); i++) {
+			auto& Mesh = meshes[i];
+			
+			std::vector<uint32_t> indices;
+			std::vector<Vertex> vertices;
 
 			for (uint32_t i = 0; i < Mesh->mNumVertices; i++) {
 				Vertex current_vertex;
@@ -57,12 +71,14 @@ namespace Alpha {
 					indices.push_back(face.mIndices[2]);
 				}
 			}
+
+			PMeshes.push_back({ vertices, indices });
 		}
 
-		return {vertices, indices};
+		return PMeshes;
 
 	}
-	void ModelLoader::ProcessNode(aiNode* node, const aiScene* scene, std::vector<aiMesh*>& meshes)
+	void MeshLoader::ProcessNode(aiNode* node, const aiScene* scene, std::vector<aiMesh*>& meshes)
 	{
 		for (uint32_t i = 0; i < node->mNumMeshes; i++) {
 			aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];

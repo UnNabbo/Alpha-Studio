@@ -17,7 +17,7 @@ constexpr Reference<type>MakeReference(Args&& ... args) {
 }
 
 template<typename type, typename ... Args>
-constexpr Reference<type>MakeScopedRef(Args&& ... args) {
+constexpr ScopedRef<type>MakeScopedRef(Args&& ... args) {
 	return std::make_unique<type>(std::forward<Args>(args)...);
 }
 

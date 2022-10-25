@@ -18,10 +18,19 @@
 
 #include "Rendering/RendererCommand.h"
 
-#include "Utility/3DModels/ModelLoader.h"
+#include "Rendering/Primitive/Mesh/Mesh.h"
+
+#include "Rendering/RenderingQueue.h"
+
+#include "Utility/MeshLoader/MeshLoader.h"
+
+#include "Utility/Serialization/Serializer.h"
 
 namespace Alpha 
 {
+
+
+
 	inline static Application* s_App = 0;
 
 	Application::Application() {
@@ -29,10 +38,12 @@ namespace Alpha
 		s_App = this;
 		Log::Init();
 
+
+	
+
 		m_Window = Window::Create();
 		m_Window->SetEventCallBack(BIND_EVENT_FN(Application::OnEvent));
 		Renderer::Init();
-
 		Time::Init();
 	}
 
@@ -57,65 +68,15 @@ namespace Alpha
 	void Application::Run(){
 		OnStart();
 
-		auto x = ModelLoader::Load("C:/Users/saver.SAVERIO/OneDrive/Desktop/Lucy_3M_O10_20.dxf.dxf");
-
-		float vertices[] = {
-			  -0.5f, -0.5f, 0.5f, 1,0, 1,0,0,// left  
-			   0.5f, -0.5f, 0.5f, 1,0, 1,0,0,// right 
-			   0.0f,  0.5f, 0.0f, 1,0,  1,0,1,// top   
-
-			   0.5f, -0.5f, 0.5f, 1,0, 1,0,0,// left  
-			   0.5f, -0.5f, -0.5f, 1,0, 1,0,0,// right 
-			   0.0f,  0.5f, 0.0f, 1,0,  1,0,1,// top   
-
-
-			  -0.5f, -0.5f, -0.5f, 1,0, 1,0,0,// left  
-			   0.5f, -0.5f, -0.5f, 1,0, 1,0,0,// right 
-			   0.0f,  0.5f, 0.0f, 1,0,  1,0,1,// top   
-
-
-			  -0.5f, -0.5f, 0.5f, 1,0, 1,0,0,// left  
-			  -0.5f, -0.5f, -0.5f, 1,0, 1,0,0,// right 
-			   0.0f,  0.5f, 0.0f, 1,0,  1,0,1,// top   
-
-			  -0.5f, -0.5f,  0.5f, 1,0, 1,1,0,// left  
-			   0.5f, -0.5f,  0.5f, 1,0, 1,1,0,// left  
-			  -0.5f, -0.5f, -0.5f, 1,0, 1,1,0,// left  
-			   0.5f, -0.5f, -0.5f, 1,0, 1,1,0,// left  
-
-			 
-		};
-
-		uint32_t ind[] = {
-			0,1,2,
-
-			2,3,4,
-
-			4,5,6,
-
-			6,7,8,
-
-			9,10,11,
-
-			12,13,14,
-		};
+		//auto x = Mesh3D::Create("C:/Users/saver.SAVERIO/OneDrive/Desktop/Lucy_3M_O10_20.dxf.dxf");
+		auto x = Mesh3D::Create("C:/Users/saver.SAVERIO/OneDrive/Desktop/Pony_cartoon.obj");
 
 		Reference<Shader> shader = Shader::Create("./asset/shaders/Fragment.glsl");
-		Reference<VertexBuffer> vbo = VertexBuffer::Create(x.Vertices.data(), x.Vertices.size() * sizeof(struct Vertex));
-		vbo->SetLayout({ 
-			{ ShaderDataType::Float3, "Pos"},
-			{ ShaderDataType::Float3, "Normals"},
-			{ ShaderDataType::Float2, "Uvs"},
-			{ ShaderDataType::Float3, "Normals"},
-			{ ShaderDataType::Float3, "Normals"},
-
-		});
-		Reference<IndexBuffer> ibo = IndexBuffer::Create(x.Indicies.data(), x.Indicies.size() * sizeof(uint32_t));
-		Reference<RenderableObject> ref = RenderableObject::Create(vbo, ibo);
-
+		
 		shader->Bind();
-
 		RendererCommand::SetClearColor(0.65f, 0.65f, 0.65f);
+
+		x->GetRenderableObject()->Bind();
 
 		while (m_Window->ShouldClose()) {
 			m_Window->NewFrame();
@@ -125,18 +86,25 @@ namespace Alpha
 				layer->OnUpdate();
 			}
 
-			Renderer::Begin(m_EditorCamera);
 			AssetManager::CheckForUpdates();
+
+			Renderer::Begin(m_EditorCamera);
 			RendererCommand::Clear();
+			Renderer::Submit(x);
+			Renderer::End();
+
 			m_EditorCamera.OnUpdate();
-			glDrawElements(GL_TRIANGLES, ref->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, 0);
+
+
+			Renderer::Render();
+
 
 			OnUpdate();
 		}
 	}
 
 	Application::~Application() {
-
+		AssetManager::Clear();
 	}
 
 	Application& Application::GetApp()

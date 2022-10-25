@@ -5,6 +5,7 @@
 #include "RenderingAPI.h"
 
 namespace Alpha {
+	class Mesh3D;
 	class Renderer {
 	public:
 		static void Init();
@@ -13,8 +14,8 @@ namespace Alpha {
 
 		static void Begin(EditorCamera& cam);
 
-		static void Draw(Reference<RenderableObject>& object);
-		static void Submit(Reference<RenderableObject>& object);
+		static void Render();
+		static void Submit(Reference<Mesh3D>& object);
 
 		static void End();
 	private:

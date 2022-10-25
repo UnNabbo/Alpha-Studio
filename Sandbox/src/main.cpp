@@ -4,7 +4,6 @@
 
 #include <iostream>
 
-
 class AlphaApp : public Alpha::Application {
 
 };
@@ -17,7 +16,6 @@ public:
 };
 
 int main() {
-
 	AlphaApp x;
 	x.PushLayer(new Game);
 	x.Run();

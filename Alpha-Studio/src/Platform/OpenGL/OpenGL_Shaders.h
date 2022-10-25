@@ -6,7 +6,7 @@ namespace Alpha {
 	class OpenGL_Shader : public Shader {
 	public:
 		OpenGL_Shader(std::string PixelPath);
-		~OpenGL_Shader() = default;
+		~OpenGL_Shader();
 
 		void CreateProgram();
 		virtual void Bind() const override;

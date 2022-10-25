@@ -59,8 +59,8 @@ namespace Alpha {
 	{
 		auto res = AssetManager::Retrive<Shader>(FragPath);
 		if (!res.get()) {
-			res = MakeReference<OpenGL_Shader>(FragPath);
-			AssetManager::Load(res);
+			res = AssetManager::CreateAsset<OpenGL_Shader>(FragPath);
+	
 		}
 
 		return res;

@@ -7,6 +7,7 @@ layout (location = 3) in vec3 aTangets; // the position variable has attribute p
 layout (location = 4) in vec3 abitangets; // the position variable has attribute position 0
 
 
+
 layout(std140, binding = 0) uniform Camera
 {
 	mat4 u_ViewProjection;

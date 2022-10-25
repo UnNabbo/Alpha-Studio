@@ -12,7 +12,6 @@ namespace Alpha {
 		Pixel = 1,
 	};
 
-
 	class Shader : public Asset {
 	public:
 		static Reference<Shader> Create(std::string FragPath);

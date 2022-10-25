@@ -51,6 +51,11 @@ namespace Alpha {
 			return stored.size();
 		}
 
+		void clear() {
+			stored.clear();
+			map.clear();
+		}
+
 		void erase(key Key) {
 			if (!contain(Key))
 				return;
