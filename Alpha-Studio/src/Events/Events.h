@@ -46,12 +46,12 @@ namespace Alpha {
 	};
 
 	class EventsDispatcher {
-		template<typename T>
+		template<class T>
 		using EventFn = std::function<bool(T&)>;
 	public:
 		EventsDispatcher(Event& event) : m_Event(event) {}
 
-		template<typename T>
+		template<class T>
 		bool Dispatch(EventFn<T> func) {
 			if (m_Event.GetEventType() == T::GetStaticType()) {
 				m_Event.handled = func(*(T*)&m_Event);

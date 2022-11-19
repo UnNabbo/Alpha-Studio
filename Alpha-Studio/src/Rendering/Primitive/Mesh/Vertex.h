@@ -13,16 +13,26 @@ namespace Alpha {
         glm::vec2 UVs;
         glm::vec3 Tangent;
         glm::vec3 Bitangent;
+
+		template<class Archive>
+		void Serialize(Archive& archive) {
+			archive& MEMBER(Position);
+			archive& MEMBER(Normal);
+			archive& MEMBER(UVs);
+			archive& MEMBER(Tangent);
+			archive& MEMBER(Bitangent);
+		}
 	};
 
     struct MeshData {
         std::vector<struct Vertex> Vertices;
+
         std::vector<uint32_t> Indicies;
+
+		template<class Archive>
+		void Serialize(Archive& archive) {
+			archive& MEMBER(Vertices);
+			archive& MEMBER(Indicies);
+		}
     };
-
-    template<>
-    static void Serialize(MeshData& Obj) {
-        ALPHA_TRACE("MESGH");
-    }
-
 }

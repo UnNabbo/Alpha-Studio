@@ -29,5 +29,5 @@ layout (location = 0) in vec3 inColor;
 
 void main()
 {
-    FragColor = vec4(inColor,1.0f);
+    FragColor = vec4(inColor ,1.0f);
 } 

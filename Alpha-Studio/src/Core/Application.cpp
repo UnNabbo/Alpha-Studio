@@ -26,9 +26,10 @@
 
 #include "Utility/Serialization/Serializer.h"
 
+#include <array>
+
 namespace Alpha 
 {
-
 
 
 	inline static Application* s_App = 0;
@@ -37,10 +38,7 @@ namespace Alpha
 		if (s_App) {};
 		s_App = this;
 		Log::Init();
-
-
-	
-
+		
 		m_Window = Window::Create();
 		m_Window->SetEventCallBack(BIND_EVENT_FN(Application::OnEvent));
 		Renderer::Init();
@@ -69,7 +67,7 @@ namespace Alpha
 		OnStart();
 
 		//auto x = Mesh3D::Create("C:/Users/saver.SAVERIO/OneDrive/Desktop/Lucy_3M_O10_20.dxf.dxf");
-		auto x = Mesh3D::Create("C:/Users/saver.SAVERIO/OneDrive/Desktop/Pony_cartoon.obj");
+		auto x = Mesh3D::Create("C:/Users/saver.SAVERIO/OneDrive/Desktop/Lucy_3M_O10_20.dxf.dxf");
 
 		Reference<Shader> shader = Shader::Create("./asset/shaders/Fragment.glsl");
 		

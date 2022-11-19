@@ -24,6 +24,12 @@ namespace Alpha {
 
 		static Reference<Mesh3D> Create(std::string_view path);
 		inline Reference<RenderableObject>& GetRenderableObject() { return m_RendObj; };
+
+		template<class Archive>
+		void Serialize(Archive& archive) {
+			archive& MEMBER(m_Meshes);
+		}
+
 	private:
 		void CreateRenderableObject();
 	private:

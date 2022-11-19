@@ -10,6 +10,8 @@
 #include "Rendering/Primitive/Mesh/Mesh.h"
 #include <fstream>
 
+#include "Utility/Serialization/Serializer.h"
+
 #define ASSET_DUMP_PATH "D:/DEV/Alpha Studio/Alpha-Studio/asset/AssetDump"
 
 namespace Alpha {
@@ -25,6 +27,11 @@ namespace Alpha {
 		inline static Reference<T> Load(Reference<T> item) {
 			auto ID = UUID();
 			Reference<Asset> res = std::static_pointer_cast<Asset>(item);
+
+			if (m_IDs.find(res->GetPath()) != m_IDs.end()) {
+				return std::static_pointer_cast<T>(m_Resources[m_IDs[res->GetPath()]]);
+			}
+
 			m_IDs[res->GetPath()] = ID;
 			m_FileWatcher.Insert(res->GetPath());
 			m_Resources.insert_or_do_nothing(ID, res);
@@ -45,36 +52,6 @@ namespace Alpha {
 
 			return std::static_pointer_cast<T>(m_Resources[ID]);
 		}
-
-#if 0
-		inline static void LoadAssetDump() {
-			std::fstream file(ASSET_DUMP_PATH, std::ios::in | std::ios::binary);
-			if (file.is_open()) {
-				std::vector<unsigned char> buffer(std::istreambuf_iterator<char>(file), {});
-				if (!buffer.empty()) {
-					size_t buffer_top = 0;
-					m_ArenaAllocator.LoadDump(buffer.data());
-					void* buffer_data = m_ArenaAllocator.GetMemArena();
-					size_t buffer_size = *((size_t*)buffer_data);
-					buffer_top += sizeof(size_t);
-					while (buffer_top < buffer_size) {
-						size_t size = *((size_t*)((char*)buffer_data + buffer_top));
-						buffer_top += sizeof(size_t);
-						auto ptr = new ((char*)buffer_data + buffer_top) Asset;
-						Load<Asset>(Reference<Asset>(ptr));
-						buffer_top += size;
-					}
-				}
-			}
-		}
-
-		inline static void DumpAsset() {
-			std::fstream file(ASSET_DUMP_PATH, std::ios::out | std::ios::binary);
-			if (file.is_open()) {
-				file.write(reinterpret_cast<char const*>(m_ArenaAllocator.GetMemArena()), m_ArenaAllocator.GetMemTop());
-			}
-		}
-#endif
 
 		inline static void Clear() {
 

@@ -1,6 +1,7 @@
 workspace "Alpha Studio"
     architecture "x64"
     startproject "Sandbox"
+
     filter "system:windows"
       systemversion "latest"
 
